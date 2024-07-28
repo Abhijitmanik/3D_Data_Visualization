@@ -1,5 +1,3 @@
-
-#  final   
 import json
 import geopandas as gpd
 import plotly.graph_objs as go
