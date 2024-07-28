@@ -226,7 +226,7 @@ fig.update_layout(
             yanchor="top"
         )
     ],
-    #  if we add both india nad srilanaka range slider 
+    #  if we add both india and srilanaka range slider 
 #     sliders=[
 #         dict(
 #             steps=steps_india,
@@ -253,7 +253,7 @@ fig.update_layout(
 #     ],
 #     annotations=annotations
 # )
-# #  only on india range slider
+# #  only for India range slider
     sliders=[
         dict(
             steps=steps_india,
