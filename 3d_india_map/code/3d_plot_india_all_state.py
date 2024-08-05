@@ -189,7 +189,7 @@ annotations = [
 # Update layout with range sliders, light/dark mode buttons, and annotations
 fig.update_layout(
     title={
-        'text': '3D Visualization of India ',
+        'text': '<b> 3D Visualization of India </b>',
         'x': 0.5,  # Center align the title horizontally
         'y': 0.98,  # Position the title higher up on the y-axis
         'xanchor': 'center',
