@@ -83,28 +83,28 @@ for feature in combined_data_india['features']:
             trace_indices_india.append(len(fig.data) - 1)
 
 # Add traces for Sri Lanka
-for feature in combined_data_srilanka['features']:
-    coordinates = feature['geometry']['coordinates']
-    state_name = feature['properties'].get('NAME_1', feature['properties'].get('name', 'Unknown'))
+# for feature in combined_data_srilanka['features']:
+#     coordinates = feature['geometry']['coordinates']
+#     state_name = feature['properties'].get('NAME_1', feature['properties'].get('name', 'Unknown'))
 
-    if feature['geometry']['type'] == 'Polygon':
-        x = [point[0] for point in coordinates[0]]
-        y = [point[1] for point in coordinates[0]]
-        z = [0] * len(x)  # Flat surface at z=0
+#     if feature['geometry']['type'] == 'Polygon':
+#         x = [point[0] for point in coordinates[0]]
+#         y = [point[1] for point in coordinates[0]]
+#         z = [0] * len(x)  # Flat surface at z=0
 
-        trace = go.Scatter3d(x=x, y=y, z=z, mode='lines', name=state_name, showlegend=False, hoverinfo='name')
-        fig.add_trace(trace)
-        trace_indices_srilanka.append(len(fig.data) - 1)
+#         trace = go.Scatter3d(x=x, y=y, z=z, mode='lines', name=state_name, showlegend=False, hoverinfo='name')
+#         fig.add_trace(trace)
+#         trace_indices_srilanka.append(len(fig.data) - 1)
 
-    elif feature['geometry']['type'] == 'MultiPolygon':
-        for polygon in coordinates:
-            x = [point[0] for point in polygon[0]]
-            y = [point[1] for point in polygon[0]]
-            z = [0] * len(x)  # Flat surface at z=0
+#     elif feature['geometry']['type'] == 'MultiPolygon':
+#         for polygon in coordinates:
+#             x = [point[0] for point in polygon[0]]
+#             y = [point[1] for point in polygon[0]]
+#             z = [0] * len(x)  # Flat surface at z=0
 
-            trace = go.Scatter3d(x=x, y=y, z=z, mode='lines', name=state_name, showlegend=False, hoverinfo='name')
-            fig.add_trace(trace)
-            trace_indices_srilanka.append(len(fig.data) - 1)
+#             trace = go.Scatter3d(x=x, y=y, z=z, mode='lines', name=state_name, showlegend=False, hoverinfo='name')
+#             fig.add_trace(trace)
+#             trace_indices_srilanka.append(len(fig.data) - 1)
 
 # Get current date and time
 current_datetime = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -144,24 +144,24 @@ for state_index, state_name in enumerate(state_names_india):
     steps_india.append(step)
 
 
-# # Create range slider steps for Sri Lanka
-# steps_srilanka = []
+# Create range slider steps for Sri Lanka
+steps_srilanka = []
 
-# # Step for showing all Sri Lankan states
-# step_all_srilanka = dict(
-#     method="update",
-#     args=[{"visible": [i in trace_indices_srilanka or i in trace_indices_india for i in range(len(fig.data))]}],
-#     label="All Sri Lankan States"
-# )
-# steps_srilanka.append(step_all_srilanka)
+# Step for showing all Sri Lankan states
+step_all_srilanka = dict(
+    method="update",
+    args=[{"visible": [i in trace_indices_srilanka or i in trace_indices_india for i in range(len(fig.data))]}],
+    label="All Sri Lankan States"
+)
+steps_srilanka.append(step_all_srilanka)
 
-# for state_index, state_name in enumerate(state_names_srilanka):
-#     step = dict(
-#         method="update",
-#         args=[{"visible": [i in trace_indices_srilanka and fig.data[i].name == state_name for i in range(len(fig.data))] + [False] * (len(fig.data) - len(trace_indices_srilanka))}],
-#         label=state_name
-#     )
-#     steps_srilanka.append(step)    
+for state_index, state_name in enumerate(state_names_srilanka):
+    step = dict(
+        method="update",
+        args=[{"visible": [i in trace_indices_srilanka and fig.data[i].name == state_name for i in range(len(fig.data))] + [False] * (len(fig.data) - len(trace_indices_srilanka))}],
+        label=state_name
+    )
+    steps_srilanka.append(step)    
 
 # Add annotations for date and time
 
@@ -186,45 +186,45 @@ annotations = [
     )
 ]
 
-# Update layout with range sliders, light/dark mode buttons, and annotations
-fig.update_layout(
-    title={
-        'text': '<b> 3D Visualization of India </b>',
-        'x': 0.5,  # Center align the title horizontally
-        'y': 0.98,  # Position the title higher up on the y-axis
-        'xanchor': 'center',
-        'yanchor': 'top'
-    },
-    scene=dict(
-        xaxis_title='Longitude',
-        yaxis_title='Latitude',
-        zaxis_title='',
-        dragmode='orbit',  # Enable orbit mode for better navigation
-        camera=dict(
-            eye=dict(x=1.25, y=1.25, z=1.25)  # Set a reasonable initial camera position
-        )
-    ),
-    updatemenus=[
-        dict(
-            type="buttons",
-            direction="left",
-            buttons=list([
-                dict(label="Light Mode",
-                     method="relayout",
-                     args=[light_mode]),
-                dict(label="Dark Mode",
-                     method="relayout",
-                     args=[dark_mode])
-            ]),
-            pad={"r": 10, "t": 10},
-            showactive=True,
-            x=0.1,
-            xanchor="left",
-            y=1.2,
-            yanchor="top"
-        )
-    ],
-    #  if we add both india and srilanaka range slider 
+# Update layout with range sliders, light/dark mode buttons, and annotations and show the grid 
+# fig.update_layout(
+#     title={
+#         'text': '<b> 3D Visualization of India </b>',
+#         'x': 0.5,  # Center align the title horizontally
+#         'y': 0.98,  # Position the title higher up on the y-axis
+#         'xanchor': 'center',
+#         'yanchor': 'top'
+#     },
+#     scene=dict(
+#         xaxis_title='Longitude',
+#         yaxis_title='Latitude',
+#         zaxis_title='',
+#         dragmode='orbit',  # Enable orbit mode for better navigation
+#         camera=dict(
+#             eye=dict(x=1.25, y=1.25, z=1.25)  # Set a reasonable initial camera position
+#         )
+#     ),
+#     updatemenus=[
+#         dict(
+#             type="buttons",
+#             direction="left",
+#             buttons=list([
+#                 dict(label="Light Mode",
+#                      method="relayout",
+#                      args=[light_mode]),
+#                 dict(label="Dark Mode",
+#                      method="relayout",
+#                      args=[dark_mode])
+#             ]),
+#             pad={"r": 10, "t": 10},
+#             showactive=True,
+#             x=0.1,
+#             xanchor="left",
+#             y=1.2,
+#             yanchor="top"
+#         )
+#     ],
+#     #  if we add both india and srilanaka range slider 
 #     sliders=[
 #         dict(
 #             steps=steps_india,
@@ -251,7 +251,69 @@ fig.update_layout(
 #     ],
 #     annotations=annotations
 # )
-# #  only for India range slider
+#  only for India range slider
+#     sliders=[
+#         dict(
+#             steps=steps_india,
+#             active=0,
+#             x=0.1,
+#             len=0.8,
+#             xanchor="left",
+#             y=-0.15,
+#             yanchor="bottom",
+#             pad={"b": 10, "t": 50},
+#             currentvalue={"prefix": "India: ", "font": {"size": 20}}
+#         )
+#     ],
+#     annotations=annotations
+# )
+# fig.show()
+
+# Update layout with range sliders, light/dark mode buttons, and annotations and off the grid 
+
+fig.update_layout(
+    title={
+        'text': '<b>3D Visualization of India</b>',
+        'x': 0.5,  # Center align the title horizontally
+        'y': 0.98,  # Position the title higher up on the y-axis
+        'xanchor': 'center',
+        'yanchor': 'top'
+    },
+    template='plotly_dark',  # Apply the dark template to the entire layout
+    scene=dict(
+        xaxis=dict(visible=False),
+        yaxis=dict(visible=False),
+        zaxis=dict(visible=False),
+        # Uncomment if axis titles and dragmode are needed
+        # xaxis_title='Longitude',
+        # yaxis_title='Latitude',
+        # zaxis_title='',
+        # dragmode='orbit',  # Enable orbit mode for better navigation
+        # camera=dict(
+        #     eye=dict(x=1.25, y=1.25, z=1.25)  # Set a reasonable initial camera position
+        # )
+    ),
+    updatemenus=[
+        dict(
+            type="buttons",
+            direction="left",
+            buttons=list([
+                dict(label="Light Mode",
+                     method="relayout",
+                     args=[{'template': 'plotly'}]),
+                dict(label="Dark Mode",
+                     method="relayout",
+                     args=[{'template': 'plotly_dark'}])
+            ]),
+            pad={"r": 10, "t": 10},
+            showactive=True,
+            x=0.1,
+            xanchor="left",
+            y=1.2,
+            yanchor="top"
+        )
+    ],
+#  only for India range slider
     sliders=[
         dict(
             steps=steps_india,
@@ -269,3 +331,4 @@ fig.update_layout(
 )
 
 fig.show()
+fig.write_image("3d_visualization_india.png")
