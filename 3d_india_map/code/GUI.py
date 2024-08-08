@@ -185,8 +185,19 @@ def create_3d_plot():
                 text=f'Time: {current_time}',
                 showarrow=False,
                 font=dict(size=12)
+            ),
+            dict(
+                x=0.95,
+                y=0,
+                xref='paper',
+                yref='paper',
+                text='<b> Created  by Abhijit Manik </b>',
+                showarrow=False,
+                font=dict(size=12),
+                align='right'
             )
         ]
+        
 
         # Create a logo HTML snippet
         logo_html = '<img src="logo.png" style="position: absolute; top: 10px; left: 10px; width: 100px;"/>'
